@@ -186,19 +186,29 @@ def is_bot(p):
 # ================= LOAD CONFIG =================
 # Intenta leer de variables de entorno (GitHub), si no existen, usa el JSON (Local)
 HOST = os.getenv("MC_HOST")
-PORT = int(os.getenv("MC_PORT", 22))
+PORT = os.getenv("MC_PORT")
 USER = os.getenv("MC_USER")
 PASS = os.getenv("MC_PASS")
 WORLD = os.getenv("MC_WORLD", "/world")
 
+# Si no hay variables de entorno (caso de ejecución local), intenta cargar el JSON
 if not all([HOST, USER, PASS]):
-    with open(CONFIG_FILE, encoding="utf-8") as f:
-        config = json.load(f)
-        HOST = config["host"]
-        PORT = int(config["port"])
-        USER = config["user"]
-        PASS = config["pass"]
-        WORLD = config.get("world", "/world")r"
+    if os.path.exists(CONFIG_FILE):
+        with open(CONFIG_FILE, encoding="utf-8") as f:
+            config = json.load(f)
+            HOST = config.get("host")
+            PORT = config.get("port")
+            USER = config.get("user")
+            PASS = config.get("pass")
+            WORLD = config.get("world", "/world")
+    else:
+        print("❌ ERROR: No se encontraron credenciales en Environment ni en config.json")
+        exit(1)
+
+# Asegurar que el puerto sea un entero
+PORT = int(PORT) if PORT else 22
+STATS_FOLDER = WORLD.rstrip("/") + "/stats"
+SKINRESTORER_FOLDER = WORLD.rstrip("/") + "/skinrestorer"
 
 # ================= CONNECT SFTP =================
 print(f"🔗 Conectando a {HOST}...")
@@ -1529,4 +1539,5 @@ print(f"\n✅ Panel ultra-premium generado: {OUTPUT_HTML}")
 print(f"📊 Estadísticas:")
 print(f"   👥 Jugadores reales: {len(real)}")
 print(f"   🤖 Bots detectados: {len(bots)}")
+
 print(f"   📈 Total analizados: {len(players)}")
