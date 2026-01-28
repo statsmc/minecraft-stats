@@ -423,6 +423,8 @@ html = f"""
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="refresh" content="300">
+
 <title>Minecraft Stats - Ultra Premium Dashboard</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -1544,4 +1546,5 @@ print(f"   👥 Jugadores reales: {len(real)}")
 print(f"   🤖 Bots detectados: {len(bots)}")
 
 print(f"   📈 Total analizados: {len(players)}")
+
 
