@@ -2,8 +2,8 @@ name: Actualizar Estadisticas Minecraft
 
 on:
   schedule:
-    - cron: '0 * * * *' # Se ejecuta cada hora
-  workflow_dispatch: # Permite ejecutarlo manualmente con un botón
+    - cron: '*/3 * * * *' # Se ejecutará cada 3 minutos
+  workflow_dispatch:
   
 permissions:
   contents: write
