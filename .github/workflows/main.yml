@@ -1,0 +1,41 @@
+name: Actualizar Estadisticas Minecraft
+
+on:
+  schedule:
+    - cron: '0 * * * *' # Se ejecuta cada hora
+  workflow_dispatch: # Permite ejecutarlo manualmente con un botón
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar codigo
+        uses: actions/checkout@v3
+
+      - name: Configurar Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Instalar dependencias
+        run: pip install paramiko
+
+      - name: Ejecutar Script
+        env:
+          MC_HOST: ${{ secrets.MC_HOST }}
+          MC_PORT: ${{ secrets.MC_PORT }}
+          MC_USER: ${{ secrets.MC_USER }}
+          MC_PASS: ${{ secrets.MC_PASS }}
+          MC_WORLD: ${{ secrets.MC_WORLD }}
+        run: python Stats_claude.py
+
+      - name: Renombrar para GitHub Pages
+        run: mv stats_panel_ultra.html index.html
+
+      - name: Subir a GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./
+          publish_branch: gh-pages # Crea una rama especial para la web
+          keep_files: false
