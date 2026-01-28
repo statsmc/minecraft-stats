@@ -1530,6 +1530,9 @@ filterData();
 </body>
 </html>
 """
+# Obtener la hora actual de la ejecución
+# Usamos el formato Día/Mes/Año Hora:Minuto
+ahora = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
 
 # ================= SAVE HTML =================
 with open(OUTPUT_HTML, "w", encoding="utf-8") as f:
@@ -1541,3 +1544,4 @@ print(f"   👥 Jugadores reales: {len(real)}")
 print(f"   🤖 Bots detectados: {len(bots)}")
 
 print(f"   📈 Total analizados: {len(players)}")
+
